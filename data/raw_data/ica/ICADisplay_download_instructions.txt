@@ -1,0 +1,5 @@
+Instructions for downloading ICADisplay.gdb.zip from the PG&E Integration Capacity Analysis (ICA) Map
+1. Go to https://www.pge.com/b2b/distribution-resource-planning/integration-capacity-map.shtml
+2. You will be prompted for your username and password for your Wholesale Electric Power Procurement account. If you do not have an account yet, click "Register" and create an account.
+3. After you have logged in, click "Download Spatial Data" in the upper right-hand corner.
+4. ICADisplay.gdb.zip will download to your computer. Save it in this folder, i.e. under ccai-dac-grid\data\raw_data\ica

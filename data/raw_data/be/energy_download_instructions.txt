@@ -1,0 +1,15 @@
+Instructions for downloading energy.csv from the NREL Electrification Futures Study
+1. Go to https://data.nrel.gov/submissions/92
+2. Download Final Energy Demand.gzip
+3. Unzip the downloaded file, energy.csv.gzip, and extract energy.csv (see tips below)
+4. Save energy.csv in this folder, i.e. under ccai-dac-grid\data\raw_data\re
+
+Tips for unzipping a gzip file: If you do not have an application downloaded on your computer designed for unzipping gzip file, you can use Python.
+
+See https://stackoverflow.com/questions/51107766/converting-a-csv-gz-to-csv-in-python-2-7 or you can copy and paste the code below into a Python console.
+
+import gzip
+with gzip.open('energy.csv.gzip', 'rt') as gz_file:
+	data = gz_file.read()
+	with open('energy.csv', 'wt') as out_file:
+		out_file.write(data)

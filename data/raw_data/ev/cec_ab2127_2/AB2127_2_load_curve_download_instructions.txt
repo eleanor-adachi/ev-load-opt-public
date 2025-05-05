@@ -1,0 +1,2 @@
+Instructions for retrieving Load Curve Data from the AB 2127 2nd Assessment
+1. Data is not publicly available. The author emailed the lead author, Adam Davis (Adam.Davis@energy.ca.gov), and requested the data.

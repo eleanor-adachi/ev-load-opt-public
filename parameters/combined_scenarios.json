@@ -1,0 +1,20 @@
+{
+	"B": {
+		"_description": "high scenario for building electrification + more residential scenario for EV charging",
+		"EVres": 4,
+		"EVcom": 4, 
+		"BE": 4
+	},
+	"C": {
+		"_description": "high scenario for building electrification + standard scenario for EV charging",
+		"EVres": 1,
+		"EVcom": 1,
+		"BE": 4
+	},
+	"D": {
+		"_description": "high scenario for building electrification + more commercial scenario for EV charging",
+		"EVres": 3,
+		"EVcom": 3, 
+		"BE": 4
+	}
+}

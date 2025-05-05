@@ -1,5 +1,5 @@
-# ev-load-opt
-Repository for EV load optimization research at UC Berkeley
+# ev-load-opt-public
+Public repository for EV load optimization research at UC Berkeley
 
 ## Project Description
 This project aims to quantify the trade-offs between distribution grid upgrades and dispatchable generation and storage capacity procurement in the optimization of future electric vehicle (EV) charging demand in the service territory of Pacific Gas and Electric Company (PG&E) in Northern California. This project builds upon previous work by [Elmallah et al. (2022)](https://iopscience.iop.org/article/10.1088/2634-4505/ac949c/meta). This project uses convex optimization methods and assesses several different scenarios of load growth in 2030, 2040, and 2050 to explore both near- and long-term impacts. This project also estimates the costs of both distribution grid upgrades and capacity procurement under different objective functions.
@@ -11,7 +11,7 @@ This project was primarily conducted by Eleanor Adachi between 2023 and 2025 to 
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/eleanor-adachi/ev-load-opt.git
+   git clone https://github.com/eleanor-adachi/ev-load-opt-public.git
    ```
 2. Create conda environment
    ```sh

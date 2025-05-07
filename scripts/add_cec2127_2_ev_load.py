@@ -8,10 +8,10 @@ Created on Fri Feb 21 15:01:56 2025
 
 Adapted from EVcharging.Rmd created by Anna Brockway
 
-Creates EV charging profiles based on California Energy Commission's 2nd 
-Electric Vehicle Charging Infrastructure Assessment for Assembly Bill 2127
+Creates EV charging profiles based on California Energy Commission's 
+Assembly Bill 2127 Second Electric Vehicle Charging Infrastructure Assessment
 
-Raw data provided by Adam Davis (Adam.Davis@energy.ca.gov)
+Underlying data for figure results provided by Adam Davis (Adam.Davis@energy.ca.gov)
 
 List of scenarios:
     1. Primary/baseline (Figure 20)
@@ -50,20 +50,12 @@ pge_county_ls = [
     "Sierra", "Siskiyou", "Solano", "Sonoma", "Stanislaus", "Sutter", "Tehama", 
     "Trinity", "Tulare", "Tuolumne", "Yolo", "Yuba"
     ]
-cec2127_2_figureresults = r'..\data\raw_data\ev\cec_ab2127_2\AB2127 Load Curve Data 2nd Assessment.xlsx'
+cec2127_2_figureresults = r'..\data\raw_data\ev\cec_ab2127_2\AB2127 Load Curve Data 2nd Assessment_partial.xlsx'
 sc_tab_dict = {
     1: 'Figure 20',  # primary/baseline
     2: 'Figure E-3', # higher home access
     3: 'Figure E-4', # lower home access
-    4: 'Figure E-5',
-    5: 'Figure E-6',
-    6: 'Figure E-7',
-    7: 'Figure E-8',
-    8: 'Figure E-9',
-    9: 'Figure E-10',
-    10: 'Figure E-11',
     }
-# sc_num_ls = range(1,13) # all scenarios
 sc_num_ls = [1, 2, 3] # selected scenarios
 ica_file = r'..\data\raw_data\ica\ICADisplay.gdb.zip'
 # EV charging growth ratios

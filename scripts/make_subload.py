@@ -35,9 +35,7 @@ def create_sub_map(ica_file):
     '''
     # Create substation name-ID mapping based on FeederDetail layer
     feedinfo = gpd.read_file(ica_file, layer="FeederDetail")
-    # feedinfo['SubID'] = feedinfo['FeederID'].apply(lambda x: x[:5]).astype(int)
     feedinfo['sub_id'] = feedinfo['FeederID'].apply(lambda x: x[:5]).astype(int)
-    # feed_map = feedinfo[['Substation', 'SubID']]
     feed_map = feedinfo[['Substation', 'sub_id']]
     feed_map = feed_map.rename(columns={'Substation':'SubName_FeederDetail'})
     feed_map = feed_map.drop_duplicates() # necessary since original feedinfo was indexed by feeder ID; substations have unique names
@@ -45,24 +43,13 @@ def create_sub_map(ica_file):
     # Create substation name-ID mapping based on Substations layer
     subinfo = gpd.read_file(ica_file, layer="Substations")
     sub_map = subinfo[['SUBNAME', 'SUBSTATIONID']].drop_duplicates()
-    # sub_map = sub_map.rename(columns={
-    #     'SUBNAME': 'SubName_Substations',
-    #     'SUBSTATIONID': 'SubID' # note, automatically read as int
-    #     })
     sub_map = sub_map.rename(columns={
         'SUBNAME': 'SubName_Substations',
         'SUBSTATIONID': 'sub_id' # note, automatically read as int
         })
-    # sub_map = sub_map.drop_duplicates(subset='SubID') # necessary because some substations have multiple names
     sub_map = sub_map.drop_duplicates(subset='sub_id') # necessary because some substations have multiple names
     
     # Merge
-    # final_map = pd.merge(feed_map, sub_map, how='outer', on='SubID')
-    # final_map['SubName'] = final_map.apply(
-    #     lambda row: row['SubName_FeederDetail'] 
-    #     if pd.notnull(row['SubName_FeederDetail']) 
-    #     else row['SubName_Substations'], axis=1
-    #     )
     final_map = pd.merge(feed_map, sub_map, how='outer', on='sub_id')
     final_map['sub_name'] = final_map.apply(
         lambda row: row['SubName_FeederDetail'] 
@@ -91,7 +78,6 @@ def make_subload(ica_file, save=True):
     subload['SubID'] = subload['SubID'].astype(int)
     subload['month'] = subload['MonthHour'].str[:2].astype(int)
     subload['hour'] = subload['MonthHour'].str[3:5].astype(int)
-    # subload = subload.rename(columns={'Light': 'l_kW', 'High': 'h_kW_raw'})
     subload = subload.rename(columns={
         'Light':'l_kW', 'High':'h_kW_raw', 'SubName':'sub_name', 'SubID':'sub_id'
         })
@@ -124,20 +110,17 @@ def make_subload(ica_file, save=True):
     feedload = pd.merge(feedload, feed_sub_map, how='left', on='feeder_id')    
     
     # Create subload by summing up feedload
-    # subload_feedsum = feedload.groupby(['SubID','mhid'])['h_kW'].sum().reset_index()
     subload_feedsum = feedload.groupby(['sub_id','mhid'])['h_kW'].sum().reset_index()
     subload_feedsum = subload_feedsum.rename(columns={'h_kW':'h_kW_feedsum'})
     
     # Create sub_map
     sub_map = create_sub_map(ica_file)
     
-    # Merge subload_feedsum, sub_map and mh    
-    # subload_feedsum = pd.merge(subload_feedsum, sub_map, how='left', on='SubID')
+    # Merge subload_feedsum, sub_map and mh
     subload_feedsum = pd.merge(subload_feedsum, sub_map, how='left', on='sub_id')
     subload_feedsum = pd.merge(mh, subload_feedsum, on='mhid', how='right')
     
     # STEP 3: Merge and compare
-    # subload = pd.merge(subload, subload_feedsum, how='outer', on=['SubID','SubName','month','hour','mhid'])
     subload = pd.merge(subload, subload_feedsum, how='outer', on=['sub_id','sub_name','month','hour','mhid'])
     subload['h_kW'] = subload.apply(
         lambda row: row['h_kW_feedsum'] if pd.isnull(row['h_kW_raw']) 

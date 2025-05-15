@@ -24,12 +24,10 @@ that serve specific circuits."
 
 import os
 import pandas as pd
-import geopandas as gpd
 
 # Inputs
 gna_file = r'..\data\raw_data\gna\PGE_2023_GNA_Appendix_E_Public.xlsx'
 gna_sheet = 'GNA - Bank & Feeder Capacity'
-ica_file = r'..\data\raw_data\ica\ICADisplay.gdb.zip'
 data_dir = r'..\data'
 
 def make_subrating(gna_file, gna_sheet, save=True, save_dir=''):
@@ -62,15 +60,6 @@ def make_subrating(gna_file, gna_sheet, save=True, save_dir=''):
     bank_df = bank_df.drop(columns='temp')
     
     # Compute substation rating = sum of ratings across banks at substation
-    # subrat = bank_df.pivot_table(
-    #     values = ['2023 Facility Rating (MW)', 'Facility Name', 'CC'], 
-    #     index = ['Distribution Planning Regions', 'Division', 'sub_id'], 
-    #     aggfunc = {
-    #         '2023 Facility Rating (MW)':'sum',
-    #         'Facility Name':'count',
-    #         'CC':'sum'
-    #         }
-    #     )
     subrat = bank_df.pivot_table(
         values = ['2023 Facility Rating (MW)', 'Facility Name', 'CC'], 
         index = 'sub_id', 
@@ -81,13 +70,6 @@ def make_subrating(gna_file, gna_sheet, save=True, save_dir=''):
             }
         )
     subrat = subrat.reset_index()
-    # subrat = subrat.rename(
-    #     columns={
-    #         'Distribution Planning Regions':'DistribPlanningRegion',
-    #          '2023 Facility Rating (MW)':'subrating_MW',
-    #         'Facility Name':'Bank Count', 
-    #         'CC':'CC Count'
-    #         })
     subrat = subrat.rename(
         columns={
             '2023 Facility Rating (MW)':'subrating_MW',
@@ -95,21 +77,10 @@ def make_subrating(gna_file, gna_sheet, save=True, save_dir=''):
             'CC':'CC Bank Count'
             })
     
-    # NEW - remove substations where one or more banks is CC
+    # remove substations where one or more banks is CC
     subrat = subrat[ subrat['CC Bank Count']==0 ]
     
-    # Merge in substation name and redacted
-    # subinfo = gpd.read_file(ica_file, layer="Substations")
-    # subinfo = subinfo.rename(columns={
-    #     'SUBSTATIONID': 'sub_id',
-    #     'REDACTED': 'redacted'
-    #     })
-    # subrat = pd.merge(
-    #     subrat[['sub_id', 'subrating_MW']], subinfo[['sub_id', 'redacted']], how='outer', 
-    #     on='sub_id'
-    #     )
-    
-    # NEW keep only sub_id and subrating_MW
+    # keep only sub_id and subrating_MW
     subrat = subrat[['sub_id', 'subrating_MW']]
 
     # Save results
@@ -123,4 +94,3 @@ def make_subrating(gna_file, gna_sheet, save=True, save_dir=''):
 
 if __name__ == "__main__":
     subrat = make_subrating(gna_file, gna_sheet, save=True, save_dir=data_dir)
-    # subrat = make_subrating(gna_file, gna_sheet, save=False)

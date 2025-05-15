@@ -33,5 +33,4 @@ This project was primarily conducted by Eleanor Adachi between 2023 and 2025 to 
 ## How to Use
 
 The scripts and Jupyter Notebooks in this project relate to each other according to the process flow diagram below. Raw data is either automatically downloaded when you clone the repo or will need to be downloaded per the "*_download_instructions.txt" (where * is replaced with the name of a specific dataset) files saved in relevant raw data folders. (Some datasets could not be stored in this repo due to size limitations.)
-![Redesigned V1G process map_for export](https://github.com/user-attachments/assets/9a8147a4-a5b3-4c15-a54b-6d49031300ef)
-
+![Redesigned V1G process map 20250514](https://github.com/user-attachments/assets/aa9828cc-9723-4bc5-8f76-5fca847fe324)
